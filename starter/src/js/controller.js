@@ -31,11 +31,15 @@ const renderSpinner = function (parentEl) {
 
 const showRecipe = async function () {
   try {
-    // Loading recipe
+    const id = window.location.hash.slice(1);
+    console.log(id);
 
+    if (!id) return;
+
+    // Loading recipe
     renderSpinner(recipeContainer);
     const res = await fetch(
-      'https://forkify-api.jonas.io/api/v2/recipes/5ed6604591c37cdc054bc886'
+      `https://forkify-api.jonas.io/api/v2/recipes/${id}`
     );
     const data = await res.json();
 
@@ -157,3 +161,7 @@ const showRecipe = async function () {
   }
 };
 showRecipe();
+
+const eventHashchangeAndLoad = ['hashchange', 'load'].forEach(e => {
+  window.addEventListener(e, showRecipe);
+});
