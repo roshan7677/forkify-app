@@ -177,7 +177,7 @@
 
   // Only insert newRequire.load when it is actually used.
   // The code in this file is linted against ES5, so dynamic import is not allowed.
-  // INSERT_LOAD_HERE
+  function $parcel$resolve(url) {  url = importMap[url] || url;  return import.meta.resolve(distDir + url);}newRequire.resolve = $parcel$resolve;
 
   Object.defineProperty(newRequire, 'root', {
     get: function () {
@@ -714,6 +714,10 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"7dWZ8":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _iconsSvg = require("url:../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+console.log((0, _iconsSvgDefault.default));
 const recipeContainer = document.querySelector('.recipe');
 const timeout = function(s) {
     return new Promise(function(_, reject) {
@@ -746,9 +750,9 @@ const showRecipe = async function() {
         // Rendering the recipe
         const markup = `
       <figure class="recipe__fig">
-        <img src="${recipe.image}" alt="Tomato" class="recipe__img" />
+        <img src="${recipe.image}" alt="${recipe.title}" class="recipe__img" />
         <h1 class="recipe__title">
-          <span>${Response.title}</span>
+          <span>${recipe.title}</span>
         </h1>
       </figure>
 
@@ -757,14 +761,14 @@ const showRecipe = async function() {
           <svg class="recipe__info-icon">
             <use href="src/img/icons.svg#icon-clock"></use>
           </svg>
-          <span class="recipe__info-data recipe__info-data--minutes">45</span>
+          <span class="recipe__info-data recipe__info-data--minutes">${recipe.cookingTime}</span>
           <span class="recipe__info-text">minutes</span>
         </div>
         <div class="recipe__info">
           <svg class="recipe__info-icon">
             <use href="src/img/icons.svg#icon-users"></use>
           </svg>
-          <span class="recipe__info-data recipe__info-data--people">4</span>
+          <span class="recipe__info-data recipe__info-data--people">${recipe.servings}</span>
           <span class="recipe__info-text">servings</span>
 
           <div class="recipe__info-buttons">
@@ -796,27 +800,20 @@ const showRecipe = async function() {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-          <li class="recipe__ingredient">
-            <svg class="recipe__icon">
-              <use href="src/img/icons.svg#icon-check"></use>
-            </svg>
-            <div class="recipe__quantity">1000</div>
-            <div class="recipe__description">
-              <span class="recipe__unit">g</span>
-              pasta
-            </div>
-          </li>
-
-          <li class="recipe__ingredient">
-            <svg class="recipe__icon">
-              <use href="src/img/icons.svg#icon-check"></use>
-            </svg>
-            <div class="recipe__quantity">0.5</div>
-            <div class="recipe__description">
-              <span class="recipe__unit">cup</span>
-              ricotta cheese
-            </div>
-          </li>
+          ${recipe.ingredients.map((ing)=>{
+            return `
+              <li class="recipe__ingredient">
+                <svg class="recipe__icon">
+                  <use href="src/img/icons.svg#icon-check"></use>
+                </svg>
+                <div class="recipe__quantity">${ing.quantity}</div>
+                <div class="recipe__description">
+                  <span class="recipe__unit">${ing.unit}</span>
+                  ${ing.description}
+                </div>
+              </li>         
+            `;
+        }).join('')}
         </ul>
       </div>
 
@@ -824,12 +821,12 @@ const showRecipe = async function() {
         <h2 class="heading--2">How to cook it</h2>
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
-          <span class="recipe__publisher">The Pioneer Woman</span>. Please check out
+          <span class="recipe__publisher">${recipe.publisher}</span>. Please check out
           directions at their website.
         </p>
         <a
           class="btn--small recipe__btn"
-          href="http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/"
+          href="${recipe.sourceUrl}"
           target="_blank"
         >
           <span>Directions</span>
@@ -839,12 +836,47 @@ const showRecipe = async function() {
         </a>
       </div>
     `;
+        recipeContainer.innerHTML = '';
+        recipeContainer.insertAdjacentHTML('afterbegin', markup);
     } catch (err) {
         alert(err);
     }
 };
 showRecipe();
 
-},{}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {})
+},{"url:../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"fd0vu":[function(require,module,exports,__globalThis) {
+module.exports = module.bundle.resolve("icons.0809ef97.svg") + "?" + Date.now();
+
+},{}],"jnFvT":[function(require,module,exports,__globalThis) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=starter.4a59a05f.js.map
