@@ -799,6 +799,8 @@ var _searchViewJs = require("./views/searchView.js");
 var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
 var _resultsViewJs = require("./views/resultsView.js");
 var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
+var _paginationViewJs = require("./views/paginationView.js");
+var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
 // if (module.hot) {
 //   module.hot.accept();
 // }
@@ -813,6 +815,7 @@ const controlRecipes = async function() {
         (0, _recipeViewJsDefault.default).renderSpinner();
         // Loading recipe
         await _modelJs.loadRecipe(id);
+        console.log(_modelJs.state.search);
         // Rendering the recipe
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     // const recipeView = new recipeView (model.state.recipe)
@@ -830,18 +833,27 @@ const controlSearchResults = async function() {
         // 2) Load search results
         await _modelJs.loadSearchResults(query);
         // 3) Render results
-        (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPerPage());
+        (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPerPage(4));
+        // 4) Render the initial pagination
+        (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
     } catch (err) {
         console.log(err);
     }
 };
+const controlPagination = function(goToPage) {
+    //1. Render NEW results.
+    (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPerPage(goToPage));
+    //2. Render New Pagination buttons:
+    (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
+};
 const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
+    (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
 };
 init();
 
-},{"core-js/modules/esnext.array.last-index.js":"heX1j","core-js/modules/esnext.array.last-item.js":"gd73s","core-js/modules/esnext.composite-key.js":"cyPSH","core-js/modules/esnext.composite-symbol.js":"hvYja","core-js/modules/esnext.map.delete-all.js":"emugi","core-js/modules/esnext.map.every.js":"e7ps6","core-js/modules/esnext.map.filter.js":"d0o5v","core-js/modules/esnext.map.find.js":"6ZT7N","core-js/modules/esnext.map.find-key.js":"5ArCj","core-js/modules/esnext.map.from.js":"IhzBp","core-js/modules/esnext.map.includes.js":"5iTFq","core-js/modules/esnext.map.key-by.js":"aosTF","core-js/modules/esnext.map.key-of.js":"cL0NY","core-js/modules/esnext.map.map-keys.js":"9YPg4","core-js/modules/esnext.map.map-values.js":"hNjM7","core-js/modules/esnext.map.merge.js":"iYKu2","core-js/modules/esnext.map.of.js":"40OSz","core-js/modules/esnext.map.reduce.js":"2GWf0","core-js/modules/esnext.map.some.js":"dvWMT","core-js/modules/esnext.map.update.js":"cgc1b","core-js/modules/esnext.math.clamp.js":"37JTO","core-js/modules/esnext.math.deg-per-rad.js":"iUfUE","core-js/modules/esnext.math.degrees.js":"66FvZ","core-js/modules/esnext.math.fscale.js":"lDpNf","core-js/modules/esnext.math.iaddh.js":"c4YW7","core-js/modules/esnext.math.imulh.js":"6AkYw","core-js/modules/esnext.math.isubh.js":"k7ab2","core-js/modules/esnext.math.rad-per-deg.js":"8JaUN","core-js/modules/esnext.math.radians.js":"3zsHQ","core-js/modules/esnext.math.scale.js":"7IiLE","core-js/modules/esnext.math.seeded-prng.js":"8qk3B","core-js/modules/esnext.math.signbit.js":"9JYYX","core-js/modules/esnext.math.umulh.js":"kzWcO","core-js/modules/esnext.number.from-string.js":"jThYh","core-js/modules/esnext.observable.js":"aYLNs","core-js/modules/esnext.promise.try.js":"izUpR","core-js/modules/esnext.reflect.define-metadata.js":"azsYD","core-js/modules/esnext.reflect.delete-metadata.js":"1ynAE","core-js/modules/esnext.reflect.get-metadata.js":"ireD4","core-js/modules/esnext.reflect.get-metadata-keys.js":"6H5Yu","core-js/modules/esnext.reflect.get-own-metadata.js":"fKYIt","core-js/modules/esnext.reflect.get-own-metadata-keys.js":"6BwRm","core-js/modules/esnext.reflect.has-metadata.js":"5qnij","core-js/modules/esnext.reflect.has-own-metadata.js":"elxsb","core-js/modules/esnext.reflect.metadata.js":"k9zLU","core-js/modules/esnext.set.add-all.js":"jLtM1","core-js/modules/esnext.set.delete-all.js":"8uQ7T","core-js/modules/esnext.set.difference.js":"8jZOK","core-js/modules/esnext.set.every.js":"jzcwx","core-js/modules/esnext.set.filter.js":"g2PlW","core-js/modules/esnext.set.find.js":"3hj5Z","core-js/modules/esnext.set.from.js":"7SFu2","core-js/modules/esnext.set.intersection.js":"6dAmL","core-js/modules/esnext.set.is-disjoint-from.js":"lHSvu","core-js/modules/esnext.set.is-subset-of.js":"fxKfu","core-js/modules/esnext.set.is-superset-of.js":"d6sbe","core-js/modules/esnext.set.join.js":"jWiap","core-js/modules/esnext.set.map.js":"6elgT","core-js/modules/esnext.set.of.js":"f8vO9","core-js/modules/esnext.set.reduce.js":"j8JzT","core-js/modules/esnext.set.some.js":"9g7g6","core-js/modules/esnext.set.symmetric-difference.js":"ibCuk","core-js/modules/esnext.set.union.js":"gn6qA","core-js/modules/esnext.string.at.js":"77RpS","core-js/modules/esnext.string.code-points.js":"aURiW","core-js/modules/esnext.symbol.dispose.js":"gz6hK","core-js/modules/esnext.symbol.observable.js":"39Led","core-js/modules/esnext.symbol.pattern-match.js":"hCqhl","core-js/modules/esnext.weak-map.delete-all.js":"jUK9z","core-js/modules/esnext.weak-map.from.js":"fzmZB","core-js/modules/esnext.weak-map.of.js":"bs9yE","core-js/modules/esnext.weak-set.add-all.js":"2ondH","core-js/modules/esnext.weak-set.delete-all.js":"3x5PW","core-js/modules/esnext.weak-set.from.js":"jRnX9","core-js/modules/esnext.weak-set.of.js":"9E6IZ","core-js/modules/web.immediate.js":"bzsBv","./model.js":"3QBkH","regenerator-runtime":"f6ot0","./views/recipeView.js":"3wx5k","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r"}],"heX1j":[function(require,module,exports,__globalThis) {
+},{"core-js/modules/esnext.array.last-index.js":"heX1j","core-js/modules/esnext.array.last-item.js":"gd73s","core-js/modules/esnext.composite-key.js":"cyPSH","core-js/modules/esnext.composite-symbol.js":"hvYja","core-js/modules/esnext.map.delete-all.js":"emugi","core-js/modules/esnext.map.every.js":"e7ps6","core-js/modules/esnext.map.filter.js":"d0o5v","core-js/modules/esnext.map.find.js":"6ZT7N","core-js/modules/esnext.map.find-key.js":"5ArCj","core-js/modules/esnext.map.from.js":"IhzBp","core-js/modules/esnext.map.includes.js":"5iTFq","core-js/modules/esnext.map.key-by.js":"aosTF","core-js/modules/esnext.map.key-of.js":"cL0NY","core-js/modules/esnext.map.map-keys.js":"9YPg4","core-js/modules/esnext.map.map-values.js":"hNjM7","core-js/modules/esnext.map.merge.js":"iYKu2","core-js/modules/esnext.map.of.js":"40OSz","core-js/modules/esnext.map.reduce.js":"2GWf0","core-js/modules/esnext.map.some.js":"dvWMT","core-js/modules/esnext.map.update.js":"cgc1b","core-js/modules/esnext.math.clamp.js":"37JTO","core-js/modules/esnext.math.deg-per-rad.js":"iUfUE","core-js/modules/esnext.math.degrees.js":"66FvZ","core-js/modules/esnext.math.fscale.js":"lDpNf","core-js/modules/esnext.math.iaddh.js":"c4YW7","core-js/modules/esnext.math.imulh.js":"6AkYw","core-js/modules/esnext.math.isubh.js":"k7ab2","core-js/modules/esnext.math.rad-per-deg.js":"8JaUN","core-js/modules/esnext.math.radians.js":"3zsHQ","core-js/modules/esnext.math.scale.js":"7IiLE","core-js/modules/esnext.math.seeded-prng.js":"8qk3B","core-js/modules/esnext.math.signbit.js":"9JYYX","core-js/modules/esnext.math.umulh.js":"kzWcO","core-js/modules/esnext.number.from-string.js":"jThYh","core-js/modules/esnext.observable.js":"aYLNs","core-js/modules/esnext.promise.try.js":"izUpR","core-js/modules/esnext.reflect.define-metadata.js":"azsYD","core-js/modules/esnext.reflect.delete-metadata.js":"1ynAE","core-js/modules/esnext.reflect.get-metadata.js":"ireD4","core-js/modules/esnext.reflect.get-metadata-keys.js":"6H5Yu","core-js/modules/esnext.reflect.get-own-metadata.js":"fKYIt","core-js/modules/esnext.reflect.get-own-metadata-keys.js":"6BwRm","core-js/modules/esnext.reflect.has-metadata.js":"5qnij","core-js/modules/esnext.reflect.has-own-metadata.js":"elxsb","core-js/modules/esnext.reflect.metadata.js":"k9zLU","core-js/modules/esnext.set.add-all.js":"jLtM1","core-js/modules/esnext.set.delete-all.js":"8uQ7T","core-js/modules/esnext.set.difference.js":"8jZOK","core-js/modules/esnext.set.every.js":"jzcwx","core-js/modules/esnext.set.filter.js":"g2PlW","core-js/modules/esnext.set.find.js":"3hj5Z","core-js/modules/esnext.set.from.js":"7SFu2","core-js/modules/esnext.set.intersection.js":"6dAmL","core-js/modules/esnext.set.is-disjoint-from.js":"lHSvu","core-js/modules/esnext.set.is-subset-of.js":"fxKfu","core-js/modules/esnext.set.is-superset-of.js":"d6sbe","core-js/modules/esnext.set.join.js":"jWiap","core-js/modules/esnext.set.map.js":"6elgT","core-js/modules/esnext.set.of.js":"f8vO9","core-js/modules/esnext.set.reduce.js":"j8JzT","core-js/modules/esnext.set.some.js":"9g7g6","core-js/modules/esnext.set.symmetric-difference.js":"ibCuk","core-js/modules/esnext.set.union.js":"gn6qA","core-js/modules/esnext.string.at.js":"77RpS","core-js/modules/esnext.string.code-points.js":"aURiW","core-js/modules/esnext.symbol.dispose.js":"gz6hK","core-js/modules/esnext.symbol.observable.js":"39Led","core-js/modules/esnext.symbol.pattern-match.js":"hCqhl","core-js/modules/esnext.weak-map.delete-all.js":"jUK9z","core-js/modules/esnext.weak-map.from.js":"fzmZB","core-js/modules/esnext.weak-map.of.js":"bs9yE","core-js/modules/esnext.weak-set.add-all.js":"2ondH","core-js/modules/esnext.weak-set.delete-all.js":"3x5PW","core-js/modules/esnext.weak-set.from.js":"jRnX9","core-js/modules/esnext.weak-set.of.js":"9E6IZ","core-js/modules/web.immediate.js":"bzsBv","./model.js":"3QBkH","regenerator-runtime":"f6ot0","./views/recipeView.js":"3wx5k","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r","./views/paginationView.js":"7NIiB"}],"heX1j":[function(require,module,exports,__globalThis) {
 'use strict';
 // TODO: Remove from `core-js@4`
 var DESCRIPTORS = require("73b5a71b9881a20f");
@@ -7355,6 +7367,58 @@ class ResultsView extends (0, _viewDefault.default) {
 }
 exports.default = new ResultsView();
 
-},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../../img/icons.svg":"fd0vu"}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
+},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../../img/icons.svg":"fd0vu"}],"7NIiB":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class PaginationView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector('.pagination');
+    addHandlerClick(handler) {
+        this._parentElement.addEventListener('click', function(e) {
+            const btn = e.target.closest('.btn--inline');
+            if (!btn) return;
+            const goToPage = +btn.dataset.goto;
+            handler(goToPage);
+        });
+    }
+    _generateMarkup() {
+        const curPage = this._data.page;
+        const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
+        // Page 1, and there are other pages
+        if (curPage === 1 && numPages > 1) return `<button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
+  <span>Page ${curPage + 1}</span>
+  <svg class="search__icon">
+    <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
+  </svg>
+</button>`;
+        // Last page
+        if (curPage === numPages && numPages > 1) return `<button data-goto="${curPage - 1}" class="btn--inline pagination__btn--prev">
+  <svg class="search__icon">
+    <use href="${0, _iconsSvgDefault.default}#icon-arrow-left"></use>
+  </svg>
+  <span>Page ${curPage - 1}</span>
+</button>`;
+        // Middle pages
+        if (curPage < numPages) return `<button data-goto="${curPage - 1}" class="btn--inline pagination__btn--prev">
+  <svg class="search__icon">
+    <use href="${0, _iconsSvgDefault.default}#icon-arrow-left"></use>
+  </svg>
+  <span>Page ${curPage - 1}</span>
+</button>
+<button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
+  <span>Page ${curPage + 1}</span>
+  <svg class="search__icon">
+    <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
+  </svg>
+</button>`;
+        return '';
+    }
+}
+exports.default = new PaginationView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./View":"jSw21","url:../../img/icons.svg":"fd0vu"}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=starter.4a59a05f.js.map
