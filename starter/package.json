@@ -1,14 +1,15 @@
 {
   "name": "forkify",
   "version": "1.0.0",
-  "description": "Recipe application",
+  "description": "Recipe application built with modern JavaScript and Parcel",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --no-scope-hoist --no-optimize --public-url ./"
   },
-  "author": "Jaspreet Huda",
+  "author": "Jaspreet Hora",
   "license": "ISC",
   "devDependencies": {
+    "@parcel/transformer-inline-string": "^2.16.0",
     "@parcel/transformer-sass": "^2.16.0",
     "parcel": "^2.16.0",
     "sass": "^1.93.2"

@@ -1,3 +1,5 @@
+import icons from '../icons.js';
+
 class SearchView {
   _parentEl = document.querySelector('.search');
 

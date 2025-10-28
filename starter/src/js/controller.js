@@ -1,13 +1,18 @@
+import '../sass/main.scss';
 import * as model from './model.js';
 import 'core-js';
 import 'regenerator-runtime';
-import {MODAL_CLOSE_SEC} from './config.js'
+import { MODAL_CLOSE_SEC } from './config.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
 import addRecipeView from './views/addRecipeView.js';
+import icons from './icons.js'; // <-- Add this line
+
+// Inject SVG sprite into DOM
+document.body.insertAdjacentHTML('afterbegin', icons); // <-- Add this line
 
 // if (module.hot) {
 //   module.hot.accept();
@@ -30,17 +35,16 @@ const controlRecipes = async function () {
     // Update results view to mark selected search result
     resultsView.update(model.getSearchResultsPerPage());
 
-    // Update bookmarks view 
+    // Update bookmarks view
     bookmarksView.update(model.state.bookmarks);
-    
+
     // Loading recipe
     await model.loadRecipe(id);
     console.log(model.state.search);
-    
+
     // Rendering the recipe
     recipeView.render(model.state.recipe);
     // const recipeView = new recipeView (model.state.recipe)
-
   } catch (err) {
     recipeView.renderError();
   }
@@ -98,20 +102,20 @@ const controlAddBookmark = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
-const controlBookmarks = function() {
+const controlBookmarks = function () {
   bookmarksView.render(model.state.bookmarks);
-}
+};
 
-const controlAddRecipe = async function(newRecipe) {
-  try{
+const controlAddRecipe = async function (newRecipe) {
+  try {
     // Show loading spinner
     addRecipeView.renderSpinner();
 
     // Upload the new recipe data
-   await model.uploadRecipe(newRecipe);
+    await model.uploadRecipe(newRecipe);
     console.log(model.state.recipe);
 
-    // Render recipe 
+    // Render recipe
     recipeView.render(model.state.recipe);
 
     // Render success message
@@ -120,22 +124,21 @@ const controlAddRecipe = async function(newRecipe) {
     // Render bookmark view
     bookmarksView.render(model.state.bookmarks);
 
-    // Change ID in the URL 
+    // Change ID in the URL
     window.history.pushState(null, '', `#${model.state.recipe.id}`);
     // window.history.back();
 
     // Close form window as otherwise we won't be able to see the recipe
-    setTimeout(function() {
+    setTimeout(function () {
       addRecipeView.toggleWindow();
-
     }, MODAL_CLOSE_SEC * 1000);
-  } catch(err) {
+  } catch (err) {
     console.log('Own error:', err);
     addRecipeView.renderError(err.message);
   }
   // Upload the new recipe data
-}
- 
+};
+
 const init = function () {
   bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
@@ -146,4 +149,5 @@ const init = function () {
   addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 
-init();
+window.__forceForkifyInit__ = init; // assign function reference, not result
+window.__forceForkifyInit__(); // call it once immediately
